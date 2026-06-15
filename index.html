@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KOKORO — 會呼吸的 AI 助眠午睡枕</title>
+<!--
+  ============================================================
+  KOKORO 專題單頁 Landing Page
+  NTUB 創意科技與產品設計系 115 級專題
+  風格：米白／黑、極簡留白、大標題、產品為主角
+  簽名動畫：依 3:2:2:2（吸:閉:呼:休）節律脹縮的「呼吸圓」
+  ------------------------------------------------------------
+  ★ 要換圖片：搜尋「換成」這兩個字，把佔位的 url 換成媒體庫網址
+  ★ 要改文字：每個區塊上方都有中文註解，直接改字即可
+  ============================================================
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700&family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+  /* 繁體中文圓體 jf open 粉圓 */
+  @font-face{
+    font-family:'jf-openhuninn';
+    src:url('https://cdn.jsdelivr.net/gh/justfont/open-huninn-font@2.1/font/jf-openhuninn-2.1.ttf') format('truetype');
+    font-weight:400 900;font-display:swap;
+  }
+  :root{
+    --cream:#F4F1EA;      /* 主背景 米白 */
+    --cream-2:#EAE5DA;    /* 次背景 */
+    --ink:#1A1A1A;        /* 近黑 主文字/深色帶 */
+    --ink-soft:#3a3a37;
+    --muted:#7a766c;      /* 輔助灰 */
+    --line:#d9d3c6;       /* 分隔線 */
+    --accent:#9a8c73;     /* 暖木色點綴 */
+    --sage:#8a9a86;       /* 灰綠點綴 */
+    --card:#fffdf8;       /* 卡片底 */
+    --radius:22px;
+    --maxw:1240px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:"jf-openhuninn","Noto Sans TC",system-ui,-apple-system,sans-serif;
+    background:var(--cream);color:var(--ink);
+    line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:hidden;
+  }
+  .en{font-family:"Baloo 2","jf-openhuninn",sans-serif;}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px;}
+  a{color:inherit;text-decoration:none}
+  img{max-width:100%;display:block}
+  section{position:relative}
+
+  /* pill 按鈕 */
+  .pill{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:13px 26px;border-radius:999px;font-weight:600;font-size:15px;
+    background:var(--ink);color:var(--cream);border:1.5px solid var(--ink);
+    transition:.25s ease;cursor:pointer;white-space:nowrap;
+  }
+  .pill:hover{background:transparent;color:var(--ink);}
+  .pill.ghost{background:transparent;color:var(--ink);}
+  .pill.ghost:hover{background:var(--ink);color:var(--cream);}
+  .pill.ondark{background:var(--cream);color:var(--ink);border-color:var(--cream);}
+  .pill.ondark:hover{background:transparent;color:var(--cream);}
+
+  .eyebrow{font-size:13px;letter-spacing:.28em;text-transform:uppercase;color:var(--muted);font-weight:600;}
+  .sec-title{font-size:clamp(26px,4.2vw,46px);font-weight:900;line-height:1.08;letter-spacing:-.01em;}
+
+  /* ===== 導覽列 ===== */
+  header.nav{position:sticky;top:0;z-index:50;backdrop-filter:blur(10px);
+    background:rgba(244,241,234,.82);border-bottom:1px solid var(--line);}
+  .nav-inner{display:flex;align-items:center;justify-content:space-between;height:84px;gap:40px;}
+  .logo{display:flex;align-items:center;gap:10px;font-weight:900;font-size:24px;letter-spacing:.02em;margin-right:20px;}
+  .logo .dot{width:11px;height:11px;border-radius:50%;background:var(--ink);
+    animation:breathe-dot 9s ease-in-out infinite;}
+  /* Logo 圖片版（有 Logo 檔時把上面 .logo 內容換成 <img>）：
+     <a class="logo" href="#top"><img src="換成-LOGO網址" alt="KOKORO" style="height:34px"></a> */
+  nav.menu{display:flex;gap:42px;font-size:15px;font-weight:500;}
+  nav.menu a{color:var(--ink-soft);transition:.2s}
+  nav.menu a:hover{color:var(--ink)}
+  .nav-cta{display:flex;align-items:center;gap:14px}
+  .burger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:0}
+  .burger span{width:24px;height:2px;background:var(--ink);display:block}
+
+  /* ===== Hero ===== */
+  .hero{padding:46px 0 30px;}
+  .hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:24px;align-items:center;}
+  .hero h1{font-family:"Baloo 2","jf-openhuninn",sans-serif;font-size:clamp(60px,12vw,168px);font-weight:700;line-height:.9;letter-spacing:-.02em;}
+  .hero h1 .sub-en{display:block;font-size:clamp(13px,1.4vw,18px);font-weight:600;letter-spacing:.42em;
+    color:var(--muted);margin-bottom:18px;-webkit-text-fill-color:initial;}
+  .hero-lead{max-width:430px;margin:26px 0 28px;color:var(--ink-soft);font-size:18px;}
+  .hero-lead b{font-weight:700;color:var(--ink)}
+  .hero-actions{display:flex;gap:14px;flex-wrap:wrap;align-items:center}
+  .scroll-cue{font-size:13px;color:var(--muted);letter-spacing:.1em;display:flex;align-items:center;gap:8px;margin-top:34px}
+  .scroll-cue .ln{width:46px;height:1px;background:var(--muted)}
+
+  /* 產品視覺：呼吸圓（可換成產品照）*/
+  .hero-visual{position:relative;aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;}
+  .breath-stage{position:relative;width:min(100%,440px);aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;}
+  .ring{position:absolute;border-radius:50%;}
+  .ring.r1{inset:0;background:radial-gradient(circle at 50% 45%,#fff 0%,var(--cream-2) 55%,#ded7c8 100%);
+    box-shadow:0 40px 90px -30px rgba(60,50,30,.5);animation:breathe 9s ease-in-out infinite;}
+  .ring.r2{inset:13%;background:linear-gradient(160deg,#fcfaf4,#e7e0d2);box-shadow:inset 0 8px 30px rgba(255,255,255,.8);
+    animation:breathe 9s ease-in-out infinite;animation-delay:.25s;}
+  .ring.r3{inset:30%;background:radial-gradient(circle at 50% 40%,var(--sage),#6f8270);
+    animation:breathe 9s ease-in-out infinite;animation-delay:.5s;}
+  .breath-label{position:absolute;z-index:2;text-align:center;color:#fff;text-shadow:0 2px 10px rgba(0,0,0,.3);}
+  .breath-label .phase{font-size:22px;font-weight:700;letter-spacing:.1em}
+  .breath-label .bpm{font-size:12px;opacity:.85;letter-spacing:.2em;margin-top:4px}
+  /* Hero 產品照框 */
+  .hero-product{position:relative;width:min(100%,520px);margin-left:auto;}
+  .hero-product img{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:28px;
+    box-shadow:0 46px 100px -34px rgba(60,50,30,.55);}
+  .breath-badge{position:absolute;left:18px;bottom:18px;display:inline-flex;align-items:center;gap:9px;
+    padding:11px 18px;border-radius:999px;background:rgba(255,253,248,.92);backdrop-filter:blur(6px);
+    font-size:13px;font-weight:600;box-shadow:0 10px 30px -12px rgba(0,0,0,.4);}
+  .breath-badge .dot{width:9px;height:9px;border-radius:50%;background:var(--sage);
+    animation:breathe-dot 9s ease-in-out infinite;}
+
+  @keyframes breathe{
+    0%{transform:scale(.72)}          /* 休息結束，開始吸氣 */
+    33%{transform:scale(1)}            /* 吸氣 3 */
+    55%{transform:scale(1)}            /* 閉氣 2 */
+    77%{transform:scale(.74)}          /* 呼氣 2 */
+    100%{transform:scale(.72)}         /* 休息 2 */
+  }
+  @keyframes breathe-dot{
+    0%,100%{transform:scale(.7);opacity:.6}
+    33%,55%{transform:scale(1.25);opacity:1}
+  }
+
+  /* ===== 跑馬燈黑帶 ===== */
+  .marquee{background:var(--ink);color:var(--cream);padding:22px 0;overflow:hidden;white-space:nowrap}
+  .marquee .track{display:inline-flex;gap:34px;animation:scroll-x 22s linear infinite;font-weight:800;
+    font-size:clamp(22px,3.4vw,40px);letter-spacing:.02em}
+  .marquee .track span{display:inline-flex;align-items:center;gap:34px}
+  .marquee .star{color:var(--accent)}
+  @keyframes scroll-x{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+  /* ===== 區塊通用 ===== */
+  .block{padding:104px 0}
+  .block .head{max-width:760px;margin-bottom:54px}
+  .block .head .eyebrow{margin-bottom:16px}
+  .block .head p{margin-top:18px;color:var(--ink-soft);font-size:17px}
+
+  /* 生活情境全幅帶 */
+  .lifestyle{position:relative;min-height:540px;display:flex;align-items:flex-end;overflow:hidden;
+    background:#ded7c8 center/cover no-repeat;color:#fff;}
+  .lifestyle::after{content:"";position:absolute;inset:0;
+    background:linear-gradient(180deg,rgba(20,16,10,.05) 30%,rgba(20,16,10,.62));}
+  .lifestyle .wrap{position:relative;z-index:2;padding:90px 28px 64px;}
+  .lifestyle h2{font-size:clamp(26px,4.4vw,52px);font-weight:900;line-height:1.06;max-width:700px;
+    text-shadow:0 2px 24px rgba(0,0,0,.35)}
+  .lifestyle p{margin-top:18px;max-width:540px;font-size:17px;color:#f3eee4;text-shadow:0 1px 12px rgba(0,0,0,.4)}
+
+  /* 產品細節 gallery */
+  .gallery{display:grid;grid-template-columns:1.45fr 1fr;grid-auto-rows:1fr;gap:18px}
+  .gallery .g-item{border-radius:var(--radius);overflow:hidden;background:var(--cream-2);min-height:230px}
+  .gallery .g-item img{width:100%;height:100%;object-fit:cover;display:block}
+  .gallery .g-big{grid-row:span 2}
+  @media(max-width:640px){.gallery{grid-template-columns:1fr}.gallery .g-big{grid-row:auto;min-height:300px}}
+
+  /* 痛點數據卡 */
+  .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+  .stat{padding:28px 4px 0;border-top:2px solid var(--ink)}
+  .stat .num{font-size:clamp(44px,6vw,66px);font-weight:900;line-height:1;letter-spacing:-.02em}
+  .stat .num small{font-size:.4em;font-weight:700;color:var(--accent);margin-left:4px}
+  .stat .desc{margin-top:14px;color:var(--ink-soft)}
+
+  /* 核心技術 */
+  .tech{background:var(--ink);color:var(--cream)}
+  .tech .eyebrow{color:#b7ad97}
+  .tech .head p{color:#c9c2b2}
+  .tech-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
+  .sensor-list{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .sensor{padding:18px 0;border-top:1px solid #3a382f}
+  .sensor h4{font-size:18px;font-weight:700;margin-bottom:6px}
+  .sensor span{font-size:14px;color:#a9a193}
+  .flow-mini{margin-top:26px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;color:#d8d1c1;font-weight:600}
+  .flow-mini b{background:var(--sage);color:#13180f;padding:6px 14px;border-radius:999px}
+  .tech .breath-stage{width:min(100%,400px);margin:0 auto}
+
+  /* 運作流程 */
+  .steps{display:grid;grid-template-columns:repeat(5,1fr);gap:18px;counter-reset:step}
+  .step{padding:26px 18px 0 0;position:relative;border-top:2px solid var(--accent)}
+  .step::before{counter-increment:step;content:"0" counter(step);font-family:"Baloo 2";font-weight:700;
+    font-size:34px;color:var(--accent);display:block;margin-bottom:14px}
+  .step h4{font-size:18px;font-weight:700;margin-bottom:8px}
+  .step p{font-size:14px;color:var(--ink-soft)}
+
+  /* 競品比較表 */
+  .compare{overflow-x:auto;border:1px solid var(--line);border-radius:var(--radius);background:var(--card)}
+  table{width:100%;border-collapse:collapse;min-width:680px}
+  th,td{padding:18px 20px;text-align:left;border-bottom:1px solid var(--line);font-size:15px;vertical-align:top}
+  thead th{font-weight:700;font-size:15px;color:var(--muted);background:var(--cream-2)}
+  thead th.us{color:var(--ink);background:var(--ink);color:var(--cream)}
+  tbody td:first-child{font-weight:600;color:var(--muted);white-space:nowrap}
+  td.us{background:#f0ede3;font-weight:600}
+  tr:last-child td{border-bottom:0}
+
+  /* 使用情境 / Persona */
+  .personas{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+  .persona{padding:26px 0 0;border-top:2px solid var(--ink);transition:.25s}
+  .persona:hover{transform:translateY(-4px)}
+  .persona .ic{width:46px;height:46px;border-radius:50%;background:var(--cream-2);display:flex;align-items:center;
+    justify-content:center;font-size:19px;color:var(--accent);margin-bottom:18px}
+  .persona h4{font-size:19px;font-weight:700}
+  .persona .role{font-size:13px;color:var(--accent);font-weight:600;margin:2px 0 12px}
+  .persona p{font-size:14px;color:var(--ink-soft)}
+
+  /* 團隊 */
+  .team{display:grid;grid-template-columns:repeat(5,1fr);gap:16px}
+  .member{text-align:center}
+  .member .ph{aspect-ratio:3/4;border-radius:18px;background:var(--card);border:1px solid var(--line);
+    overflow:hidden;margin-bottom:14px}
+  /* 成員照片：把 .ph 的內容換成 <img src="換成-成員照網址" alt="姓名"> */
+  .member h4{font-size:17px;font-weight:700}
+  .member span{font-size:13px;color:var(--muted)}
+  .advisor{margin-top:34px;text-align:center;color:var(--ink-soft)}
+  .advisor b{color:var(--ink)}
+
+  /* 頁尾 */
+  footer{background:var(--ink);color:var(--cream);padding:96px 0 40px}
+  .foot-cta{display:flex;justify-content:space-between;align-items:flex-end;gap:30px;flex-wrap:wrap;
+    border-bottom:1px solid #3a382f;padding-bottom:54px;margin-bottom:40px}
+  .foot-cta h2{font-size:clamp(28px,5vw,58px);font-weight:900;line-height:.98;letter-spacing:-.02em}
+  .foot-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:30px;font-size:14px;color:#b7af9a}
+  .foot-grid h5{font-size:13px;letter-spacing:.2em;text-transform:uppercase;color:#8c8674;margin-bottom:16px;font-weight:700}
+  .foot-grid a{color:#cdc6b6;display:block;margin-bottom:8px}
+  .foot-grid a:hover{color:#fff}
+  .foot-brand{font-size:30px;font-weight:900;margin-bottom:12px}
+  .foot-bottom{margin-top:48px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
+    color:#8c8674;font-size:13px}
+
+  /* reveal 動畫 */
+  .reveal{opacity:0;transform:translateY(28px);transition:.7s cubic-bezier(.2,.7,.2,1)}
+  .reveal.in{opacity:1;transform:none}
+
+  /* === WEAVE 風格元素 === */
+  /* Hero 標籤膠囊 */
+  .hero-tags{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px}
+  .hero-tags span{padding:8px 16px;border:1px solid var(--line);border-radius:999px;
+    font-size:13px;font-weight:600;color:var(--ink-soft)}
+  /* Hero 產品浮動資訊卡 */
+  .float-card{position:absolute;top:20px;left:-12px;max-width:190px;z-index:3;
+    background:rgba(255,253,248,.94);backdrop-filter:blur(6px);border-radius:16px;
+    padding:14px 16px;box-shadow:0 18px 44px -18px rgba(0,0,0,.45)}
+  .float-card b{display:block;font-size:14px;font-weight:700;margin-bottom:3px}
+  .float-card span{font-size:12px;color:var(--muted);line-height:1.5}
+
+  /* 規格 Specifications（深色） */
+  .spec{background:var(--ink);color:var(--cream);position:relative;overflow:hidden}
+  .spec .eyebrow{color:#b7ad97}
+  .watermark{position:absolute;left:-1.5vw;bottom:-4vw;font-family:"Baloo 2";font-weight:700;
+    font-size:25vw;line-height:1;color:rgba(255,255,255,.045);pointer-events:none;z-index:0;letter-spacing:-.04em}
+  .spec .wrap{position:relative;z-index:1}
+  .spec-grid{display:grid;grid-template-columns:1fr 1fr;gap:54px;align-items:center}
+  .spec-table .row{display:flex;justify-content:space-between;gap:24px;padding:16px 2px;
+    border-bottom:1px solid #3a382f;font-size:15px}
+  .spec-table .row span{color:#a9a193;white-space:nowrap}
+  .spec-table .row b{text-align:right;font-weight:600}
+  .spec-photo{position:relative;display:flex;align-items:center;justify-content:center;padding:24px}
+  .spec-photo::before{content:"";position:absolute;width:84%;aspect-ratio:1;border-radius:50%;
+    background:radial-gradient(circle at 50% 40%,#30302765,#16161200 72%)}
+  .spec-photo img{position:relative;width:100%;border-radius:22px;box-shadow:0 46px 90px -34px rgba(0,0,0,.75)}
+
+  /* FAQ 手風琴 */
+  .faq{max-width:880px}
+  .faq details{border-bottom:1px solid var(--line)}
+  .faq summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;
+    gap:18px;padding:24px 4px;font-size:18px;font-weight:700}
+  .faq summary::-webkit-details-marker{display:none}
+  .faq summary i{font-size:17px;color:var(--accent);
+    transition:transform .25s ease;line-height:1}
+  .faq details[open] summary i{transform:rotate(45deg)}
+  .faq details[open] summary{color:var(--accent)}
+  .faq p{padding:0 4px 24px;color:var(--ink-soft);max-width:720px;font-size:15px}
+
+  @media(max-width:640px){
+    .float-card{display:none}
+    .spec-grid{grid-template-columns:1fr;gap:30px}
+    .spec-photo{order:-1}
+  }
+
+  /* ===== RWD ===== */
+  @media(max-width:980px){
+    .hero-grid{grid-template-columns:1fr;gap:10px}
+    .hero h1{font-size:clamp(72px,22vw,140px)}
+    .hero-visual{order:-1;margin-bottom:10px}
+    .tech-grid{grid-template-columns:1fr;gap:34px}
+    .steps{grid-template-columns:repeat(2,1fr)}
+    .personas{grid-template-columns:repeat(2,1fr)}
+    .team{grid-template-columns:repeat(3,1fr)}
+    .foot-grid{grid-template-columns:1fr 1fr}
+  }
+  @media(max-width:640px){
+    nav.menu{display:none}
+    .burger{display:flex}
+    .block{padding:72px 0}
+    .stats{grid-template-columns:1fr}
+    .sensor-list{grid-template-columns:1fr}
+    .steps{grid-template-columns:1fr}
+    .personas{grid-template-columns:1fr}
+    .team{grid-template-columns:repeat(2,1fr)}
+    .foot-grid{grid-template-columns:1fr}
+    .foot-cta{align-items:flex-start}
+  }
+</style>
+</head>
+<body id="top">
+
+<!-- ============ 導覽列 ============ -->
+<header class="nav">
+  <div class="wrap nav-inner">
+    <a class="logo" href="#top"><span class="dot"></span>KOKORO</a>
+    <nav class="menu">
+      <a href="#about">關於</a>
+      <a href="#tech">核心技術</a>
+      <a href="#spec">規格</a>
+      <a href="#compare">競品比較</a>
+      <a href="#team">團隊</a>
+      <a href="#contact">聯絡</a>
+    </nav>
+    <div class="nav-cta">
+      <a href="#about" class="pill ghost">了解更多</a>
+      <button class="burger" aria-label="選單"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+
+<!-- ============ Hero ============ -->
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <h1><span class="sub-en en">AI NAP PILLOW · 助眠午睡枕</span>KOKORO</h1>
+      <p class="hero-lead">一顆<b>會呼吸</b>的午睡枕。透過 AI 感測你的呼吸，先同步、再溫柔引導你慢下來——
+        <b>不用穿戴、不看螢幕、不靠藥物</b>，只要抱著，身體就會自己放鬆。</p>
+      <div class="hero-actions">
+        <a href="#tech" class="pill">探索技術&nbsp; <i class="fa-solid fa-arrow-down"></i></a>
+        <a href="#about" class="pill ghost">它如何運作</a>
+      </div>
+      <div class="hero-tags">
+        <span>午睡枕</span><span>助眠科技</span><span>非穿戴</span><span>情緒陪伴</span>
+      </div>
+      <div class="scroll-cue"><span class="ln"></span>3 : 2 : 2 : 2　吸・閉・呼・休</div>
+    </div>
+    <div class="hero-visual">
+      <!-- Hero 產品照（米白底乾淨產品照）。上線後換成媒體庫網址 -->
+      <div class="hero-product">
+        <div class="float-card"><b>呼吸同步 Pacing</b><span>先偵測你的節奏，再溫柔引導慢下來</span></div>
+        <img src="images/kokoro-hero.jpg" alt="KOKORO AI 助眠午睡枕">
+        <div class="breath-badge"><span class="dot"></span>正在呼吸 · 12 BPM</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 問題 / 痛點 ============ -->
+<section class="block" id="about">
+  <div class="wrap">
+    <div class="head reveal">
+      <div class="eyebrow">The Problem</div>
+      <h2 class="sec-title">越想睡，越睡不著。</h2>
+      <p>後疫情時代，焦慮與失眠成為 18–35 歲族群的日常。冥想 App 要你「專心」、穿戴裝置只給你「數據」——
+        但在焦慮的當下，主動控制呼吸本身就是一種壓力。KOKORO 想做的，是讓你什麼都不用做。</p>
+    </div>
+    <div class="stats">
+      <div class="stat reveal"><div class="num">+25<small>%</small></div>
+        <div class="desc">疫情後全球焦慮與憂鬱症盛行率的增幅（WHO, 2022）。</div></div>
+      <div class="stat reveal"><div class="num">92<small>%</small></div>
+        <div class="desc">受訪者曾經歷至少一項睡眠障礙，睡前思緒混亂與入睡困難並列前兩名。</div></div>
+      <div class="stat reveal"><div class="num">1028<small>億美元</small></div>
+        <div class="desc">全球睡眠科技市場規模預估值（2033 年，SNS Insider）。</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 生活情境全幅帶 ============ -->
+<!-- 換成生活照（趴睡情境）：改 background-image 的網址 -->
+<section class="lifestyle" style="background-image:url('images/kokoro-nap.jpg')">
+  <div class="wrap">
+    <h2>在辦公室的 20 分鐘，<br>也能真正休息。</h2>
+    <p>不必躺平、不必戴上任何裝置。趴下、抱著 KOKORO，讓它陪你把呼吸放慢，
+      在有限的時間裡達到深層放鬆。</p>
+  </div>
+</section>
+
+<!-- ============ 核心技術 ============ -->
+<section class="block tech" id="tech">
+  <div class="wrap">
+    <div class="head reveal">
+      <div class="eyebrow">Core Technology</div>
+      <h2 class="sec-title">多模態感測 × AI 呼吸引導</h2>
+      <p>單一感測器容易被姿勢與環境雜訊干擾。KOKORO 融合四種生理訊號，在 ESP32-S3 上以「合理性引擎」
+        與 AI 決策樹判斷你的呼吸相位，誤差控制在 ±5 BPM 內。</p>
+    </div>
+    <div class="tech-grid">
+      <div class="reveal">
+        <div class="sensor-list">
+          <div class="sensor"><h4>SCD41 CO₂</h4><span>偵測呼出二氧化碳波峰，判斷呼氣相位</span></div>
+          <div class="sensor"><h4>FSR 壓力</h4><span>感測擁抱與胸腔起伏，動態基線校正</span></div>
+          <div class="sensor"><h4>MAX9814 麥克風</h4><span>聆聽呼吸氣流聲，輔助頻率判斷</span></div>
+          <div class="sensor"><h4>AF01 氣流</h4><span>直接偵測口鼻息氣流變化</span></div>
+        </div>
+        <div class="flow-mini"><b>感測</b> → <b>AI 決策樹</b> → <b>氣動回饋</b></div>
+        <p style="margin-top:22px;color:#c9c2b2">先「模仿」你的急促呼吸建立連結（Pacing），
+          再以每秒 100ms 的微幅調整，把呼吸從 >20 BPM 溫柔帶到 ~12 BPM 的放鬆區間（Leading）。</p>
+      </div>
+      <div class="reveal">
+        <div class="breath-stage">
+          <div class="ring r1"></div>
+          <div class="ring r2"></div>
+          <div class="ring r3"></div>
+          <div class="breath-label"><div class="phase">3:2:2:2</div><div class="bpm">吸・閉・呼・休</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 運作流程 ============ -->
+<section class="block" id="flow">
+  <div class="wrap">
+    <div class="head reveal">
+      <div class="eyebrow">How It Works</div>
+      <h2 class="sec-title">抱上去，剩下交給它。</h2>
+    </div>
+    <div class="steps">
+      <div class="step reveal"><h4>喚醒與校正</h4><p>抱住枕頭，FSR 偵測壓力喚醒系統，5 秒校正環境噪音與壓力基線。</p></div>
+      <div class="step reveal"><h4>同步 Pacing</h4><p>前 2 分鐘聆聽你的呼吸，氣囊以你當下的節奏微幅起伏，建立連結。</p></div>
+      <div class="step reveal"><h4>引導 Leading</h4><p>偵測到焦慮急促時，以略慢的節奏運作並延長吐氣，逐步帶你慢下來。</p></div>
+      <div class="step reveal"><h4>維持與陪伴</h4><p>呼吸降至目標並穩定後維持節律，提供持續的「被擁抱」陪伴感。</p></div>
+      <div class="step reveal"><h4>睡眠監測</h4><p>入睡後自動降低強度進入待機，並保留無呼吸超時的安全警示。</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 產品細節 ============ -->
+<section class="block" id="gallery" style="background:var(--cream-2)">
+  <div class="wrap">
+    <div class="head reveal">
+      <div class="eyebrow">Product</div>
+      <h2 class="sec-title">每一道曲面，都為趴睡而生</h2>
+      <p>柔軟針織布料、符合人體工學的拱形支撐，中心氣孔讓呼吸順暢、手臂不再發麻。</p>
+    </div>
+    <!-- 換成產品照：改各 img 的 src -->
+    <div class="gallery reveal">
+      <div class="g-item g-big"><img src="images/kokoro-desk.jpg" alt="KOKORO 桌上情境"></div>
+      <div class="g-item"><img src="images/kokoro-grid.jpg" alt="KOKORO 多視角與中心氣孔"></div>
+      <div class="g-item"><img src="images/kokoro-side.jpg" alt="KOKORO 人體工學拱形"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 規格 Specifications ============ -->
+<section class="block spec" id="spec">
+  <div class="watermark" aria-hidden="true">KOKORO</div>
+  <div class="wrap">
+    <div class="head reveal">
+      <div class="eyebrow">Specifications</div>
+      <h2 class="sec-title">規格與技術細節</h2>
+    </div>
+    <div class="spec-grid reveal">
+      <div class="spec-table">
+        <div class="row"><span>核心處理器</span><b>ESP32-S3（N16R8）</b></div>
+        <div class="row"><span>感測器</span><b>SCD41 CO₂ · FSR 壓力 · MAX9814 麥克風 · AF01 氣流</b></div>
+        <div class="row"><span>致動方式</span><b>雙氣泵氣動模組（進氣／排氣／洩氣閥）</b></div>
+        <div class="row"><span>呼吸比率</span><b>3 : 2 : 2 : 2（吸・閉・呼・休）</b></div>
+        <div class="row"><span>目標頻率</span><b>~12 BPM（放鬆區間）</b></div>
+        <div class="row"><span>安全機制</span><b>12 秒無呼吸偵測警示</b></div>
+        <div class="row"><span>產品定位</span><b>一般健康促進器材（非醫療）</b></div>
+        <a class="pill ondark" href="#contact" style="margin-top:26px">預約體驗&nbsp; <i class="fa-solid fa-arrow-right"></i></a>
+      </div>
+      <div class="spec-photo"><img src="images/kokoro-grid.jpg" alt="KOKORO 產品多視角"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 競品比較 ============ -->
+<section class="block" id="compare" style="background:var(--cream-2)">
+  <div class="wrap">
+    <div class="head reveal">
+      <div class="eyebrow">Competitive Analysis</div>
+      <h2 class="sec-title">和市場上的它們有何不同</h2>
+    </div>
+    <div class="compare reveal">
+      <table>
+        <thead><tr>
+          <th>比較項目</th><th>Somnox</th><th>Moonbird</th><th>Dodow</th><th class="us">KOKORO</th>
+        </tr></thead>
+        <tbody>
+          <tr><td>互動機制</td><td>氣動擴張＋音頻</td><td>手持收縮＋App</td><td>光學投影節拍</td><td class="us">氣動擴張＋AI 感測融合</td></tr>
+          <tr><td>感測技術</td><td>加速度計、部分 CO₂</td><td>光學心率 PPG</td><td>無（單向引導）</td><td class="us">CO₂＋FSR＋聲學＋氣流</td></tr>
+          <tr><td>優點</td><td>擁抱感強、符合人體工學</td><td>攜帶方便、有 HRV 回饋</td><td>價格低廉、無接觸</td><td class="us">多模態精準、被動式 AI 引導</td></tr>
+          <tr><td>限制</td><td>昂貴(~600 USD)、偏重</td><td>需手持、無法全身放鬆</td><td>需睜眼、藍光干擾</td><td class="us">原型階段，尚未量產</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 使用情境 / Persona ============ -->
+<section class="block" id="persona">
+  <div class="wrap">
+    <div class="head reveal">
+      <div class="eyebrow">Who It's For</div>
+      <h2 class="sec-title">為這些「睡不好」的人而做</h2>
+    </div>
+    <div class="personas">
+      <div class="persona reveal"><div class="ic"><i class="fa-solid fa-moon"></i></div><h4>焦慮型入睡者</h4><div class="role">22 歲・研究生</div>
+        <p>睡前思緒停不下來，越想睡越焦慮。只想被一股穩定的力量「接住」。</p></div>
+      <div class="persona reveal"><div class="ic"><i class="fa-solid fa-laptop"></i></div><h4>遠距工作者</h4><div class="role">28 歲・獨居工程師</div>
+        <p>長時間在家缺乏實體接觸，夜裡容易孤寂恐慌，渴望陪伴感。</p></div>
+      <div class="persona reveal"><div class="ic"><i class="fa-solid fa-spa"></i></div><h4>感官追求者</h4><div class="role">30 歲・瑜珈愛好者</div>
+        <p>對聲音與光線敏感，偏好細膩、無聲、自然的互動方式。</p></div>
+      <div class="persona reveal"><div class="ic"><i class="fa-solid fa-graduation-cap"></i></div><h4>校園午睡族</h4><div class="role">21 歲・大學生</div>
+        <p>只能趴睡補眠，考試焦慮讓大腦關不掉，需要高效率的 Power Nap。</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 團隊 ============ -->
+<section class="block" id="team" style="background:var(--cream-2)">
+  <div class="wrap">
+    <div class="head reveal">
+      <div class="eyebrow">The Team</div>
+      <h2 class="sec-title">第六組</h2>
+      <p>國立臺北商業大學・創意科技與產品設計系・115 級專題成果</p>
+    </div>
+    <div class="team">
+      <!-- 成員照片：之後在 .ph 內放 <img src="換成-照片網址" alt="姓名">；目前留白 -->
+      <div class="member reveal"><div class="ph"></div><h4>蔡謹宇</h4><span>工程研發・電路・程式・AI 演算法</span></div>
+      <div class="member reveal"><div class="ph"></div><h4>吳芊槿</h4><span>產品設計・造型・海報</span></div>
+      <div class="member reveal"><div class="ph"></div><h4>林家右</h4><span>產品設計・造型・選材</span></div>
+      <div class="member reveal"><div class="ph"></div><h4>賴裕中</h4><span>氣動機構・電力・圖表</span></div>
+      <div class="member reveal"><div class="ph"></div><h4>謝東皓</h4><span>人體工學・資料・測試</span></div>
+    </div>
+    <div class="advisor reveal">指導教授：<b>江振維 教授</b></div>
+  </div>
+</section>
+
+<!-- ============ 常見問題 FAQ ============ -->
+<section class="block" id="faq" style="background:var(--cream-2)">
+  <div class="wrap">
+    <div class="head reveal">
+      <div class="eyebrow">FAQ</div>
+      <h2 class="sec-title">常見問題</h2>
+    </div>
+    <div class="faq reveal">
+      <details open><summary>KOKORO 是醫療器材嗎？<i class="fa-solid fa-plus"></i></summary>
+        <p>不是。KOKORO 定位為「一般健康促進器材（General Wellness Device）」，用於輔助放鬆與呼吸調節，
+          不診斷或治療失眠、睡眠呼吸中止症等任何疾病。</p></details>
+      <details><summary>我需要主動操作或盯著螢幕嗎？<i class="fa-solid fa-plus"></i></summary>
+        <p>不用。它是「非穿戴、非視覺」的設計——只要抱著它，裝置會被動偵測你的呼吸並透過氣動起伏溫柔引導，
+          不需要學習技巧、也不必看任何畫面。</p></details>
+      <details><summary>它怎麼引導我的呼吸？<i class="fa-solid fa-plus"></i></summary>
+        <p>先以你當下的節奏同步起伏建立連結（Pacing），再以每秒約 100ms 的微幅調整，
+          逐步把呼吸從急促（&gt;20 BPM）帶到放鬆區間（~12 BPM，Leading），讓你在不知不覺中慢下來。</p></details>
+      <details><summary>氣動運作會不會很吵？<i class="fa-solid fa-plus"></i></summary>
+        <p>採低噪設計，目標是在辦公室與夜間環境都能舒適使用；隔音與機構噪音仍是我們持續優化的方向之一。</p></details>
+      <details><summary>適合哪些人使用？<i class="fa-solid fa-plus"></i></summary>
+        <p>焦慮型入睡者、獨居／遠距工作者、對聲光敏感者，以及只能在桌上趴睡補眠的校園午睡族。</p></details>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 聯絡我們 ============ -->
+<section class="block" id="contact" style="text-align:center">
+  <div class="wrap">
+    <div class="eyebrow reveal" style="margin-bottom:16px">Contact Us</div>
+    <h2 class="sec-title reveal">想了解更多？歡迎聯絡我們</h2>
+    <p class="reveal" style="max-width:560px;margin:18px auto 32px;color:var(--ink-soft);font-size:17px">
+      對 KOKORO 有任何問題、合作或體驗需求，歡迎來信，我們會盡快回覆。</p>
+    <a class="pill reveal" href="mailto:justintsai1067@gmail.com"
+       style="font-size:17px;padding:16px 32px"><i class="fa-solid fa-envelope"></i>&nbsp; justintsai1067@gmail.com</a>
+  </div>
+</section>
+
+<!-- ============ 頁尾 ============ -->
+<footer>
+  <div class="wrap">
+    <div class="foot-cta reveal">
+      <h2>讓身體，<br>自己慢下來。</h2>
+      <a href="#top" class="pill ondark">回到頂部&nbsp; <i class="fa-solid fa-arrow-up"></i></a>
+    </div>
+    <div class="foot-grid">
+      <div>
+        <div class="foot-brand">KOKORO</div>
+        <p>「KOKORO」日文意指「心」與「內在的靈魂」。透過呼吸律動，連結你的身與心。<br>
+          本產品定位為一般健康促進器材（General Wellness Device），非醫療器材。</p>
+      </div>
+      <div>
+        <h5>導覽</h5>
+        <a href="#about">關於</a><a href="#tech">核心技術</a><a href="#flow">運作流程</a>
+        <a href="#compare">競品比較</a><a href="#team">團隊</a>
+      </div>
+      <div>
+        <h5>單位</h5>
+        <a href="https://ctpd.ntub.edu.tw" target="_blank">創意科技與產品設計系</a>
+        <a href="https://www.ntub.edu.tw" target="_blank">國立臺北商業大學</a>
+        <a href="mailto:justintsai1067@gmail.com">justintsai1067@gmail.com</a>
+        <span style="color:#cdc6b6">115 級專題成果報告</span>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2025 KOKORO — 第六組專題. All rights reserved.</span>
+      <span>NTUB Creative Technology & Product Design</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // 呼吸圓的相位文字（與 9 秒 3:2:2:2 動畫同步）
+  (function(){
+    var el=document.getElementById('phaseText');
+    if(!el) return;
+    var phases=[['吸氣',0],['閉氣',3000],['呼氣',5000],['休息',7000]];
+    function loop(){
+      phases.forEach(function(p){ setTimeout(function(){ el.textContent=p[0]; }, p[1]); });
+    }
+    loop(); setInterval(loop,9000);
+  })();
+
+  // 捲動進場 reveal
+  (function(){
+    var io=new IntersectionObserver(function(entries){
+      entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
+    },{threshold:.12});
+    document.querySelectorAll('.reveal').forEach(function(n){ io.observe(n); });
+  })();
+
+  // 手機選單（簡易：捲到對應錨點）
+  document.querySelector('.burger').addEventListener('click',function(){
+    document.getElementById('about').scrollIntoView({behavior:'smooth'});
+  });
+</script>
+</body>
+</html>
