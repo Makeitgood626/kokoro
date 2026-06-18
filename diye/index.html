@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>地野省力車 TerraAssist — 電動推力輔助搬運車</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..600&family=Noto+Sans+TC:wght@300;400;500;700&family=Noto+Serif+TC:wght@500;600;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#f5f2ec; --bg2:#ece7dd; --ink:#26303f; --ink-soft:#4c5666; --muted:#7b8493;
+    --blue:#2f6fb2; --blue-d:#1f4e80; --green:#6fa82f; --green-d:#557f24;
+    --tint-b:#e7f0f8; --tint-g:#eef5e1; --line:#ddd6c9; --card:#fffdf9; --radius:26px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{font-family:"Noto Sans TC",system-ui,sans-serif;background:var(--bg);color:var(--ink);line-height:1.85;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  .serif{font-family:"Fraunces","Noto Serif TC",Georgia,serif}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 28px}
+  img{max-width:100%;display:block}
+  a{color:inherit;text-decoration:none}
+  .pill{display:inline-flex;align-items:center;gap:9px;padding:14px 30px;border-radius:999px;font-weight:700;font-size:15px;
+    background:var(--blue);color:#fff;border:2px solid var(--blue);transition:.25s;cursor:pointer}
+  .pill:hover{background:transparent;color:var(--blue)}
+  .pill.ghost{background:transparent;color:var(--ink);border-color:var(--ink)}
+  .pill.ghost:hover{background:var(--ink);color:#fff}
+  .eyebrow{font-size:13px;letter-spacing:.34em;text-transform:uppercase;color:var(--blue);font-weight:700}
+  .sec-title{font-size:clamp(30px,4.6vw,52px);font-weight:600;line-height:1.1}
+  .sec-title i{font-style:italic;color:var(--blue)}
+
+  /* nav */
+  header.nav{position:sticky;top:0;z-index:50;background:rgba(245,242,236,.86);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  .nav-in{display:flex;align-items:center;justify-content:space-between;height:84px;gap:30px}
+  .nav-in .logo img{height:54px}
+  nav.menu{display:flex;gap:34px;font-size:15px;font-weight:500;color:var(--ink-soft)}
+  nav.menu a:hover{color:var(--blue)}
+  .burger{display:none}
+
+  /* hero */
+  .hero{position:relative;padding:64px 0 40px;text-align:center;overflow:hidden}
+  .hero .eyebrow{margin-bottom:18px;display:block}
+  .hero h1{font-size:clamp(58px,11vw,140px);font-weight:500;line-height:.98;letter-spacing:-.01em}
+  .hero .tagline{font-style:italic;font-size:clamp(22px,3.4vw,38px);color:var(--green-d);margin-top:8px}
+  .hero p.lead{max-width:600px;margin:22px auto 28px;font-size:18px;color:var(--ink-soft)}
+  .hero p.lead b{color:var(--blue);font-weight:700}
+  .hero-actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+  .hero-stage{position:relative;margin:34px auto 0;max-width:760px;border-radius:34px;
+    background:radial-gradient(120% 120% at 30% 20%,var(--tint-b),var(--tint-g) 70%,#e9e3d6);padding:34px}
+  .hero-stage img{width:100%;animation:float 6s ease-in-out infinite}
+  @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+  .badge{position:absolute;background:rgba(255,253,249,.94);backdrop-filter:blur(6px);border-radius:16px;padding:12px 16px;
+    box-shadow:0 16px 40px -16px rgba(40,48,63,.4);font-size:13px;font-weight:600}
+  .badge.b1{top:24px;left:-6px} .badge.b2{bottom:30px;right:-6px;color:var(--green-d)}
+  .tags{margin-top:26px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+  .tags span{padding:8px 16px;border-radius:999px;font-size:13px;font-weight:700}
+  .tags .g{background:var(--tint-g);color:var(--green-d)} .tags .b{background:var(--tint-b);color:var(--blue-d)}
+
+  section{padding:84px 0}
+  .lead-p{font-size:18px;color:var(--ink-soft);max-width:760px}
+  .head{margin-bottom:48px}
+  .head .eyebrow{display:block;margin-bottom:14px}
+
+  /* features */
+  .feat{display:grid;grid-template-columns:1fr;gap:0}
+  .feat .row{display:grid;grid-template-columns:130px 1fr;gap:20px;align-items:start;padding:28px 0;border-top:1px solid var(--line)}
+  .feat .num{font-family:"Fraunces",serif;font-size:64px;font-weight:500;line-height:1;color:var(--tint-b);
+    -webkit-text-stroke:1px #bcd3ea}
+  .feat .row:nth-child(even) .num{color:var(--tint-g);-webkit-text-stroke:1px #c7e3a6}
+  .feat h3{font-size:22px;font-weight:700;margin-bottom:6px}
+  .feat p{color:var(--ink-soft)}
+
+  /* statement gradient block */
+  .statement{background:
+    radial-gradient(80% 120% at 10% 10%, #d9e7f5 0%, transparent 55%),
+    radial-gradient(80% 120% at 90% 30%, #e6f1d4 0%, transparent 55%),
+    radial-gradient(90% 120% at 50% 100%, #e9def0 0%, transparent 60%),
+    #eee9df;
+    border-radius:var(--radius);padding:clamp(40px,7vw,84px);text-align:center;margin:0 28px}
+  .statement h2{font-size:clamp(28px,5vw,58px);font-weight:500;line-height:1.12;max-width:880px;margin:0 auto}
+
+  /* design cards */
+  .cards{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+  .card{background:var(--tint-g);border-radius:var(--radius);padding:22px;text-align:center}
+  .card:nth-child(2){background:var(--tint-b)}
+  .card .cap{margin-top:12px;color:var(--muted);font-size:14px}
+
+  /* video */
+  .videowrap{border-radius:var(--radius);overflow:hidden;box-shadow:0 30px 70px -30px rgba(40,48,63,.5);background:#000}
+  .videowrap video{width:100%;display:block}
+
+  /* compare */
+  .compare{overflow-x:auto;border-radius:var(--radius);border:1px solid var(--line);background:var(--card)}
+  table{width:100%;border-collapse:collapse;min-width:640px}
+  th,td{padding:16px 18px;text-align:left;border-bottom:1px solid var(--line);font-size:15px}
+  thead th{background:var(--bg2);color:var(--muted);font-weight:700}
+  thead th.us{background:var(--blue);color:#fff}
+  td.us{background:var(--tint-g);font-weight:700}
+  tbody td:first-child{color:var(--muted)}
+  tr:last-child td{border-bottom:0}
+
+  /* personas */
+  .personas{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+  .persona{padding:26px 0 0;border-top:3px solid var(--blue)}
+  .persona:nth-child(2){border-color:var(--green)}
+  .persona h3{font-size:19px;font-weight:700;margin-bottom:8px}
+  .persona p{color:var(--ink-soft);font-size:15px}
+
+  /* gallery */
+  .gallery{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+  .gallery img{width:100%;border-radius:var(--radius)}
+
+  /* team */
+  .team{text-align:center;background:var(--bg2);border-radius:var(--radius);padding:56px 28px;margin:0 28px}
+  .team .names{font-size:clamp(18px,2.6vw,26px);font-weight:500;color:var(--ink);margin-top:14px;line-height:2}
+
+  footer{background:var(--ink);color:#e7eaef;text-align:center;padding:80px 28px 48px;margin-top:84px}
+  footer .big{font-size:clamp(28px,5vw,52px);font-weight:500;line-height:1.1}
+  footer p{color:#9aa3b2;margin-top:14px}
+
+  .reveal{opacity:0;transform:translateY(30px);transition:.8s cubic-bezier(.2,.7,.2,1)}
+  .reveal.in{opacity:1;transform:none}
+
+  @media(max-width:860px){
+    .cards,.personas,.gallery{grid-template-columns:1fr}
+    nav.menu{display:none}
+    .feat .row{grid-template-columns:80px 1fr;gap:14px}
+    .feat .num{font-size:46px}
+  }
+</style>
+</head>
+<body id="top">
+
+<header class="nav">
+  <div class="wrap nav-in">
+    <a class="logo" href="#top"><img src="logo.jpg" alt="Electric Assist Utility Cart"></a>
+    <nav class="menu">
+      <a href="#about">關於</a><a href="#features">特色</a><a href="#design">設計</a>
+      <a href="#video">示範</a><a href="#team">團隊</a>
+    </nav>
+    <a href="#about" class="pill ghost">了解更多</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <span class="eyebrow">TerraAssist · 電動推力輔助</span>
+    <h1 class="serif">地野<i style="font-style:italic;color:var(--blue)">省力</i>車</h1>
+    <div class="tagline serif">推得動，推得久。</div>
+    <p class="lead">一款具備<b>電動推力輔助</b>的多用途推車。不改變你習慣的操作方式，只在你最需要的時候，提供穩定持續的推進動力——讓搬運，不再是體力的硬仗。</p>
+    <div class="hero-actions">
+      <a href="#features" class="pill">探索特色</a>
+      <a href="#video" class="pill ghost">看使用示範</a>
+    </div>
+    <div class="hero-stage">
+      <div class="badge b1"><b>穩定推力</b><br><span style="color:var(--muted);font-weight:400">省力不費勁</span></div>
+      <img src="hero.jpg" alt="地野省力車 產品彩現">
+      <div class="badge b2">直覺操作 · 即上手</div>
+    </div>
+    <div class="tags">
+      <span class="g">農地</span><span class="g">工地</span><span class="g">市集</span>
+      <span class="b">戶外作業</span><span class="b">不平整地面</span>
+    </div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="wrap">
+    <div class="head reveal"><span class="eyebrow">The Problem</span>
+      <h2 class="sec-title serif">搬得越重，<i>傷得越深</i>。</h2></div>
+    <p class="lead-p reveal">在農業、工地與市集，推車仍高度依賴人力。當載重增加、地面不佳、長時間反覆搬運時，使用者需要持續施加大量推力，導致體力快速消耗，甚至造成腰部、肩膀與手腕的職業傷害。市面上的電動／自走式設備又多半昂貴、笨重、操作複雜，難以普及於中小型工作場域。我們選擇回到搬運工具的核心需求——<b style="color:var(--blue)">「推得動、推得久」</b>，用最單純的方式解決最實際的問題。</p>
+  </div>
+</section>
+
+<section id="features" style="padding-top:0">
+  <div class="wrap">
+    <div class="head reveal"><span class="eyebrow">Core Features</span>
+      <h2 class="sec-title serif">核心特色</h2></div>
+    <div class="feat">
+      <div class="row reveal"><div class="num serif">01</div><div><h3>單一核心功能</h3><p>聚焦提供穩定的馬達推力，不堆砌多段模式或感測系統，把可靠度與耐用度留給最重要的事。</p></div></div>
+      <div class="row reveal"><div class="num serif">02</div><div><h3>直覺操作，立即上手</h3><p>完整保留傳統推車的操作方式，無需學習與訓練，推就對了。</p></div></div>
+      <div class="row reveal"><div class="num serif">03</div><div><h3>結構簡單、穩定耐用</h3><p>無複雜模式，適合長時間戶外使用，維護成本低。</p></div></div>
+      <div class="row reveal"><div class="num serif">04</div><div><h3>適用多元場域</h3><p>農地、工地、市集等不平整地面皆可勝任，兼顧省力與穩定。</p></div></div>
+    </div>
+  </div>
+</section>
+
+<div class="statement reveal">
+  <h2 class="serif">讓搬運，從體力的硬仗，<br>變成<i style="color:var(--green-d)">輕鬆推一把</i>的事。</h2>
+</div>
+
+<section id="design">
+  <div class="wrap">
+    <div class="head reveal"><span class="eyebrow">Product Design</span>
+      <h2 class="sec-title serif">產品設計</h2>
+      <p class="lead-p" style="margin-top:14px">伸縮式把手可調整高度，適應不同身形與使用情境；簡潔的車架與置物箱結構，兼顧承載與耐用。</p></div>
+    <div class="cards reveal">
+      <div class="card"><img src="handle.jpg" alt="伸縮把手多段調整"><div class="cap">伸縮把手 · 多段高度調整</div></div>
+      <div class="card"><img src="frame.jpg" alt="車架與底盤結構"><div class="cap">簡潔車架 · 穩定底盤</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="video" style="padding-top:0">
+  <div class="wrap">
+    <div class="head reveal"><span class="eyebrow">In Action</span>
+      <h2 class="sec-title serif">使用示範</h2></div>
+    <div class="videowrap reveal"><video controls preload="metadata" poster="hero.jpg"><source src="demo.mp4" type="video/mp4">您的瀏覽器不支援影片播放。</video></div>
+  </div>
+</section>
+
+<section style="padding-top:0">
+  <div class="wrap">
+    <div class="head reveal"><span class="eyebrow">Comparison</span>
+      <h2 class="sec-title serif">與市場上的它們不同</h2></div>
+    <div class="compare reveal">
+      <table>
+        <thead><tr><th>比較項目</th><th>全電動／自走式</th><th>多功能電輔推車</th><th class="us">地野省力車</th></tr></thead>
+        <tbody>
+          <tr><td>操作門檻</td><td>高，需訓練</td><td>中，模式多</td><td class="us">低，直覺上手</td></tr>
+          <tr><td>結構與維護</td><td>複雜、體積大</td><td>較複雜</td><td class="us">簡單、耐用、好維護</td></tr>
+          <tr><td>價格門檻</td><td>高</td><td>中高</td><td class="us">親民、聚焦核心</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section style="padding-top:0">
+  <div class="wrap">
+    <div class="head reveal"><span class="eyebrow">Who It's For</span>
+      <h2 class="sec-title serif">為這些人而做</h2></div>
+    <div class="personas reveal">
+      <div class="persona"><h3>市集攤商 / 活動人員</h3><p>短時間多次推動滿載推車，場地多變，重視直覺操作與穩定性。</p></div>
+      <div class="persona"><h3>體力負擔較大者</h3><p>年長者或體力較弱者，重載時容易疲勞，需要穩定的省力支援。</p></div>
+      <div class="persona"><h3>農業 / 戶外工作者</h3><p>不平整地面反覆搬運、工作時間長、負重高，對省力需求明確、排斥複雜操作。</p></div>
+    </div>
+  </div>
+</section>
+
+<section style="padding-top:0">
+  <div class="wrap">
+    <div class="head reveal"><span class="eyebrow">Prototype</span>
+      <h2 class="sec-title serif">實機原型</h2></div>
+    <div class="gallery reveal">
+      <img src="proto1.jpg" alt="地野省力車 實機原型">
+      <img src="proto2.jpg" alt="地野省力車 實機原型側視">
+    </div>
+  </div>
+</section>
+
+<section id="team" style="padding-bottom:0">
+  <div class="team reveal">
+    <span class="eyebrow">The Team · 第四組</span>
+    <div class="names serif">徐意軒　·　李曉昀　·　黃楷軒<br>蘇芷璉　·　張博硯</div>
+    <p style="color:var(--muted);margin-top:10px">國立臺北商業大學・創意科技與產品設計系</p>
+  </div>
+</section>
+
+<footer>
+  <div class="big serif">省一分力，多一分效率。</div>
+  <p>地野省力車 TerraAssist — 戶外搬運中，直覺、省力、可靠的實用工具。</p>
+</footer>
+
+<script>
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(function(n){io.observe(n)});
+</script>
+</body>
+</html>
